@@ -12,6 +12,8 @@ MINIMUM_FOLDERS = 3
 INPUT_DIRECTORY = 'input'
 OUTPUT_DIRECTORY = 'output'
 
+GIF_SPEED = 200
+
 DNA_JSON = {
     'name': '',
     'hash': '',
@@ -78,7 +80,7 @@ def generate_gif(i, selected_files):
     random.shuffle(selected_files)
     img, *imgs = [Image.open(f) for f in selected_files]
     filename = make_url(OUTPUT_DIRECTORY, str(i) + '_output.gif')
-    res = img.save(fp=filename, format='GIF', append_images=imgs, save_all=True, duration=20, loop=0)
+    res = img.save(fp=filename, format='GIF', append_images=imgs, save_all=True, duration=GIF_SPEED, loop=0)
     return filename
 
 def generate_json(name, files, hash):

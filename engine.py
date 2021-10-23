@@ -5,11 +5,18 @@ import random
 import os.path
 from os import path
 import sys
-import urllib
+import json
+
 
 MINIMUM_FOLDERS = 3
 INPUT_DIRECTORY = 'input'
 OUTPUT_DIRECTORY = 'output'
+
+DNA_JSON = {
+    'name': '',
+    'hash': '',
+    'images': ''
+}
 
 
 def make_url(base_url, *res):
@@ -62,7 +69,8 @@ def run(no_of_nft=3):
         if new_hash not in generated_hashes:
             j += 1
             generated_hashes.append(new_hash)
-            generate_gif(j, selected_files)
+            generated_file = generate_gif(j, selected_files)
+            generated_file_json = generate_json(generated_file,selected_files,new_hash)
             print(f'NFTs created: {j} in {i} attempts')
 
 
@@ -70,8 +78,17 @@ def generate_gif(i, selected_files):
     random.shuffle(selected_files)
     img, *imgs = [Image.open(f) for f in selected_files]
     filename = make_url(OUTPUT_DIRECTORY, str(i) + '_output.gif')
-    img.save(fp=filename, format='GIF', append_images=imgs, save_all=True, duration=20, loop=0)
+    res = img.save(fp=filename, format='GIF', append_images=imgs, save_all=True, duration=20, loop=0)
+    return filename
+
+def generate_json(name, files, hash):
+    myjson = DNA_JSON
+    myjson['name'] = name
+    myjson['hash'] = hash
+    myjson['images'] = files
+    with open(name+".json", "w") as outfile:
+        json.dump(myjson, outfile)
 
 
 if __name__ == '__main__':
-    run(no_of_nft=10)
+    run(no_of_nft=5)

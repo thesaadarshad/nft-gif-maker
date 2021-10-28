@@ -3,3 +3,4 @@ venv/*
 .idea/
 input/*
 output/*
+png_to_gif/*

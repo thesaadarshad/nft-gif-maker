@@ -93,4 +93,4 @@ def generate_json(name, files, hash):
 
 
 if __name__ == '__main__':
-    run(no_of_nft=5)
+    run(no_of_nft=10)
